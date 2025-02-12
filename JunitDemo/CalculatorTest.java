@@ -15,25 +15,25 @@ class CalculatorTest {
 	
 	static Calculator c1 = null;
 	
-	@BeforeAll
+	@BeforeAll  //@BeforeClass
 	static void createCalculator() {
 		c1 = new Calculator();
 		System.out.println("-----------Started--------------");
 	}
 	
 	
-	@AfterAll
+	@AfterAll //@AfterClass
 	static void removeCalculator() {
 		c1 = null;
 		System.out.println("-----------Finished--------------");
 	}
 	
-	@BeforeEach
+	@BeforeEach  //@Before
 	void abc() {
 		System.out.println("Before every test case");
 	}
 	
-	@AfterEach
+	@AfterEach //@After
 	void xyz() {
 		System.out.println("After every test case");
 	}
@@ -59,7 +59,6 @@ class CalculatorTest {
 	
 	@Test
 	@DisplayName("Testing Multiply")
-	@Disabled
 	void testMul(){
 		System.out.println("From testMulStart() method");
 //		assertEquals(50, c1.mul(10,5));
@@ -79,6 +78,15 @@ class CalculatorTest {
 		
 		System.out.println("From testMulEnd() method");
 		
-		
+	}
+	
+	@Test
+	//@Disabled  //@Ignore
+	void testMod() {
+		assertAll(
+				()->assertEquals(0, c1.mul(10,5)),
+				()->assertEquals(2, c1.mul(20,3)),
+				()->assertEquals(1, c1.mul(3,2))
+			);
 	}
 }
