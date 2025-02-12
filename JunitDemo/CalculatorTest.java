@@ -1,6 +1,7 @@
 package com;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -8,12 +9,26 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.condition.OS;
 
 @DisplayName("Testing Arithmetic Operations")
+@TestInstance(Lifecycle.PER_CLASS) // PER_METHOD (Default)
 class CalculatorTest {
+	CalculatorTest(){
+		System.out.println("-----------Calculator Test object is created-------------");
+	}
 	
 	static Calculator c1 = null;
+	static int x = 2;
+	static boolean condition = false;
 	
 	@BeforeAll  //@BeforeClass
 	static void createCalculator() {
@@ -40,6 +55,7 @@ class CalculatorTest {
 	
 	@Test
 	@DisplayName("Testing Addition")
+	@Tag("math")
 	void testAdd() {
 		
 		assertEquals(30, c1.add(10, 20), ()->"Sum result is not right");
@@ -49,6 +65,7 @@ class CalculatorTest {
 	
 	@Test
 	@DisplayName("Testing Division")
+	@Tag("math")
 	void testDiv() throws ArithmeticException {
 		
 		assertEquals(2, c1.div(10,5));
@@ -59,6 +76,7 @@ class CalculatorTest {
 	
 	@Test
 	@DisplayName("Testing Multiply")
+	@Tag("math")
 	void testMul(){
 		System.out.println("From testMulStart() method");
 //		assertEquals(50, c1.mul(10,5));
@@ -82,6 +100,7 @@ class CalculatorTest {
 	
 	@Test
 	//@Disabled  //@Ignore
+	@Tag("math")
 	void testMod() {
 		assertAll(
 				()->assertEquals(0, c1.mul(10,5)),
@@ -89,4 +108,65 @@ class CalculatorTest {
 				()->assertEquals(1, c1.mul(3,2))
 			);
 	}
+
+	@Test
+	@EnabledOnJre(value = JRE.JAVA_8)
+//	@EnabledOnJre(min = JRE.JAVA_11, max = JRE.JAVA_15)
+	@Tag("demo")
+	void testLambda(){
+		System.out.println("Testing for Lambda expressions");
+	}
+	
+	@Test
+	@EnabledOnOs(value = {OS.WINDOWS})
+	@Disabled
+	@Tag("demo")
+	void testDll() {
+		System.out.println("Testing DLL");
+	}
+	
+	@Test
+	@EnabledOnOs(value = {OS.LINUX, OS.MAC})
+	@Disabled
+	@Tag("demo")
+	void testShellScripts() {
+		System.out.println("Testing Shell Scripts");
+	}
+	
+	@Test
+	@Disabled
+	@Tag("math")
+	@Tag("demo")	
+	void testDynamically() {
+		System.out.println("Testing Dynamically ");
+		assertEquals(2, c1.div(10,  5));
+		assumeTrue(condition);
+		assertEquals(15, c1.div(30, x));
+		
+	}
+	
+	@Test
+	@Tag("db")
+	void testInsert() {
+		System.out.println("Test Insert");
+	}
+	
+	@Test
+	@Tag("db")
+	void testUpdate() {
+		System.out.println("Test Update");
+	}
+	
+	@Test
+	@Tag("db")
+	void testDelete() {
+		System.out.println("Test Delete");
+	}
+	
+	@Test
+	@Tag("db")
+	void testSearch() {
+		System.out.println("Test Search");
+	}
+	
 }
